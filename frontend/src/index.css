@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: dark; }
+html.light { color-scheme: light; }
+
+body {
+  @apply bg-[#070a13] text-slate-200 font-sans antialiased;
+  background-image:
+    radial-gradient(900px 500px at 12% -10%, rgba(124, 58, 237, 0.20), transparent 60%),
+    radial-gradient(700px 420px at 92% 0%, rgba(59, 130, 246, 0.16), transparent 60%);
+  background-attachment: fixed;
+}
+
+html.light body {
+  @apply bg-[#f6f7fb] text-slate-800;
+  background-image:
+    radial-gradient(900px 500px at 12% -10%, rgba(124, 58, 237, 0.12), transparent 60%),
+    radial-gradient(700px 420px at 92% 0%, rgba(59, 130, 246, 0.10), transparent 60%);
+}
+
+/* Visible focus for keyboard users, invisible for mouse users. */
+:focus-visible { @apply outline-none ring-2 ring-iris-400 ring-offset-2 ring-offset-[#070a13]; }
+html.light :focus-visible { @apply ring-offset-[#f6f7fb]; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { @apply bg-white/10 rounded-full; }
+::-webkit-scrollbar-track { background: transparent; }
+
+@layer components {
+  /* The glass surface used for every raised panel in the app. */
+  .surface {
+    @apply rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-xl shadow-lift;
+  }
+  html.light .surface { @apply border-slate-900/10 bg-white/80; }
+
+  .field {
+    @apply w-full rounded-xl border border-white/10 bg-white/[0.04] px-3.5 py-2.5 text-sm
+           text-slate-100 placeholder:text-slate-500 transition
+           focus:border-iris-400/60 focus:bg-white/[0.07];
+  }
+  html.light .field { @apply border-slate-900/10 bg-white text-slate-800 placeholder:text-slate-400; }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold
+           transition active:scale-[.98] disabled:opacity-50 disabled:pointer-events-none;
+  }
+  .btn-primary { @apply btn text-white bg-gradient-to-br from-iris-500 to-azure-500 hover:brightness-110; }
+  .btn-ghost { @apply btn border border-white/10 bg-white/[0.04] text-slate-200 hover:bg-white/[0.09]; }
+  html.light .btn-ghost { @apply border-slate-900/10 bg-white text-slate-700 hover:bg-slate-100; }
+  .btn-danger { @apply btn bg-rose-500/90 text-white hover:bg-rose-500; }
+
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.06]
+           px-2.5 py-1 text-[11px] font-semibold text-slate-300;
+  }
+  html.light .chip { @apply border-slate-900/10 bg-slate-100 text-slate-600; }
+
+  .muted { @apply text-slate-400; }
+
+  /* Placeholder text for the empty document editor. */
+  [contenteditable][data-placeholder]:empty::before {
+    content: attr(data-placeholder);
+    @apply text-slate-500;
+  }
+  html.light .muted { @apply text-slate-500; }
+}
