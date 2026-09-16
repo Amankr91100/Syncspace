@@ -1,165 +1,421 @@
-# SyncSpace
+# 🚀 SyncSpace
 
-A real-time collaborative Agile workspace — Kanban boards, tasks, comments, documents and
-notifications that stay in sync across everyone looking at them.
+### Real-Time Collaborative Workspace for Modern Teams
 
-Frontend and backend are separate folders with their own `.env`, so you only fill in values
-and run.
+SyncSpace is a full-stack collaboration platform that helps teams organize work, manage projects, communicate in real time, and work together from a single workspace.
 
----
-
-## What's inside
-
-| Layer | Technology |
-|---|---|
-| Frontend | React 18, Vite, Tailwind CSS, Zustand + Context API, react-beautiful-dnd, React Router, axios |
-| Backend | Node.js, Express |
-| Real time | Socket.io (JWT-authenticated handshake, workspace / board / card rooms) |
-| Database | MongoDB with Mongoose |
-| Cache & presence | Redis (ioredis) |
-| Auth | JWT + bcrypt |
+It provides a centralized environment for managing workspaces, boards, lists, cards, comments, notifications, documents, and search.
 
 ---
 
-## Run it
+## 🌐 Live Demo
 
-You need Node 18+, a MongoDB connection string, and optionally Redis.
+* **Frontend:** https://syncspace-1-sf6n.onrender.com
+* **Backend API:** `https://your-backend-url.onrender.com`
 
-### 1. Backend
+---
+
+## ✨ Features
+
+### 🔐 Authentication
+
+* User registration and login
+* Secure authentication
+* Protected routes
+* User session management
+
+### 🏢 Workspace Management
+
+* Create and manage workspaces
+* Organize projects in separate workspaces
+* Manage workspace-related activities
+
+### 📋 Project Boards
+
+* Create project boards
+* Organize tasks using lists
+* Create and manage cards
+* Track task progress
+
+### 📝 Task Management
+
+* Add, update, and delete cards
+* Add comments to tasks
+* Organize tasks inside lists
+* Manage project workflow efficiently
+
+### 🔔 Notifications
+
+* Receive workspace-related notifications
+* Stay updated about important activities
+* Track changes and collaboration events
+
+### 📄 Document Management
+
+* Upload and manage documents
+* Organize important project resources
+* Access workspace-related documents
+
+### 🔎 Search
+
+* Search across workspace data
+* Quickly find boards, cards, documents, and other resources
+
+### ⚡ Real-Time Collaboration
+
+* Real-time communication support
+* Live workspace updates using Socket.IO
+* Designed for collaborative team workflows
+
+### 📱 Responsive Interface
+
+* Modern and clean user interface
+* Responsive layout for desktop and mobile devices
+* Easy-to-use workspace experience
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+
+* React.js
+* Vite
+* JavaScript
+* Tailwind CSS
+* Axios
+* React Router
+* Socket.IO Client
+
+### Backend
+
+* Node.js
+* Express.js
+* MongoDB
+* Mongoose
+* JWT Authentication
+* Socket.IO
+* CORS
+* Morgan
+
+### Deployment
+
+* Render
+* MongoDB Atlas
+* GitHub
+
+---
+
+## 🏗️ Project Architecture
+
+```text
+SyncSpace
+│
+├── frontend
+│   ├── src
+│   │   ├── components
+│   │   ├── pages
+│   │   ├── layouts
+│   │   ├── lib
+│   │   ├── hooks
+│   │   └── App.jsx
+│   ├── public
+│   ├── .env
+│   └── package.json
+│
+├── backend
+│   ├── controllers
+│   ├── models
+│   ├── routes
+│   ├── middleware
+│   ├── utils
+│   ├── app.js
+│   ├── server.js
+│   └── package.json
+│
+└── README.md
+```
+
+---
+
+## ⚙️ Environment Variables
+
+### Frontend
+
+Create a `.env` file inside the `frontend` folder:
+
+```env
+VITE_API_URL=http://localhost:5000
+```
+
+For production:
+
+```env
+VITE_API_URL=https://your-backend-url.onrender.com
+```
+
+### Backend
+
+Create a `.env` file inside the `backend` folder:
+
+```env
+PORT=5000
+NODE_ENV=development
+
+MONGO_URI=your_mongodb_connection_string
+
+JWT_SECRET=your_jwt_secret
+
+CLIENT_URL=http://localhost:5173
+```
+
+For production, update:
+
+```env
+NODE_ENV=production
+CLIENT_URL=https://syncspace-1-sf6n.onrender.com
+```
+
+> Never commit your `.env` file or expose secret keys publicly.
+
+---
+
+## 🚀 Getting Started
+
+Follow these steps to run SyncSpace locally.
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/your-username/syncspace.git
+```
+
+```bash
+cd syncspace
+```
+
+---
+
+### 2. Install Backend Dependencies
 
 ```bash
 cd backend
 npm install
-# open .env and set MONGO_URI and JWT_SECRET
-npm run dev          # http://localhost:5000
 ```
 
-`backend/.env`:
+Start the backend server:
 
-```
-PORT=5000
-MONGO_URI=mongodb://127.0.0.1:27017/syncspace
-REDIS_URL=redis://127.0.0.1:6379
-JWT_SECRET=a-long-random-string
-JWT_EXPIRES_IN=7d
-CLIENT_URL=http://localhost:5173
+```bash
+npm run dev
 ```
 
-MongoDB Atlas works too — paste the SRV string into `MONGO_URI`.
+The backend will run on:
 
-**Redis is optional.** If it isn't reachable the server prints one line and keeps going;
-caching and presence simply turn off. Nothing else breaks.
+```text
+http://localhost:5000
+```
 
-### 2. Frontend
+---
+
+### 3. Install Frontend Dependencies
+
+Open another terminal:
 
 ```bash
 cd frontend
 npm install
-npm run dev          # http://localhost:5173
 ```
 
-`frontend/.env` — the only value you ever change:
+Start the frontend:
 
+```bash
+npm run dev
 ```
-VITE_API_URL=http://localhost:5000
+
+The frontend will run on:
+
+```text
+http://localhost:5173
 ```
-
-Both the REST calls and the WebSocket connection read this one variable.
-
-### 3. Try the real-time part
-
-Open the app in two browsers (or one normal + one incognito), sign in as two different
-people, join the same workspace and open the same board. Drag a card in one window and it
-moves in the other. Same for comments, assignments, checklists and typing indicators.
 
 ---
 
-## How it fits together
+## 🔗 API Health Check
 
-```
-backend/
-  server.js              HTTP server + Socket.io attached to the same port
-  src/app.js             Express app and route mounting
-  src/config/            Mongo connection, Redis cache + presence helpers
-  src/models/            User, Workspace, Board, List, Card, Comment, Document,
-                         Notification, Activity
-  src/controllers/       Request handling
-  src/routes/            REST endpoints
-  src/middleware/        protect (JWT), requireWorkspace, requireRole, errors
-  src/services/          Board cache reads, notifications, activity log
-  src/sockets/index.js   Handshake auth, rooms, presence
+You can check whether the backend is running by opening:
 
-frontend/
-  src/lib/               axios client, socket client, SocketContext, helpers
-  src/store/             Zustand stores: auth, workspace, board, notifications, ui
-  src/components/        Layout, Sidebar, Topbar, CardTile, CardModal, SearchDialog…
-  src/pages/             Landing, Login, Register, Workspaces, Dashboard, Boards,
-                         BoardPage, MyTasks, Documents, DocumentEditor, Team,
-                         Notifications, WorkspaceSettings, Profile
+```text
+http://localhost:5000/api/health
 ```
 
-### Real-time design
+Expected response:
 
-- **Handshake.** The client sends its JWT in `auth.token`. The server verifies it in
-  `io.use()` before the connection is accepted — an unauthenticated socket never reaches a
-  room.
-- **Rooms.** `user:<id>` for personal notifications, `workspace:<id>` for presence and
-  activity, `board:<id>` for card and list events, `card:<id>` and `doc:<id>` for typing
-  indicators. Joining a workspace or board re-checks membership; a valid token proves who
-  you are, not what you're allowed to open.
-- **Optimistic updates.** Every mutation changes local state first, then calls the API, and
-  rolls back on failure. Broadcasts carry a `by` field so the client that caused the change
-  ignores its own echo — no double-applied moves.
-- **Cleanup.** Every `socket.on` in a component has a matching `socket.off` in the effect's
-  cleanup, so revisiting a board doesn't stack duplicate listeners.
-- **Reconnects.** The socket reconnects automatically and re-joins the active workspace room
-  on `connect`.
-
-### Where Redis is used
-
-- Caching a board's lists and cards for 60s, invalidated on every board mutation.
-- Caching search results for 30s, since the query re-runs as the user types.
-- Presence: one Redis set per workspace holding the ids of online users. Presence clears
-  only when a user's last tab disconnects.
-
-### Document conflicts
-
-Documents carry a `version` number. The client sends the version it loaded; if the stored
-version has moved ahead, the save is rejected with `409` and the editor shows "Out of date"
-instead of silently overwriting someone. Incoming remote edits are only painted into the
-editor when the caret isn't in it.
+```json
+{
+  "ok": true,
+  "service": "syncspace-api"
+}
+```
 
 ---
 
-## API
+## 🔒 CORS Configuration
 
-All routes are under `/api`. Everything except register and login needs
-`Authorization: Bearer <token>`. Workspace-scoped routes take `workspaceId` as a query
-param or in the body, and are checked by `requireWorkspace`.
+The backend uses the frontend URL from the `CLIENT_URL` environment variable.
 
-| Area | Routes |
-|---|---|
-| Auth | `POST /auth/register`, `POST /auth/login`, `POST /auth/logout`, `GET /auth/me`, `PUT /auth/me` |
-| Workspaces | `GET /workspaces`, `POST /workspaces`, `GET|PUT|DELETE /workspaces/:id`, `GET /workspaces/:id/overview`, `GET /workspaces/:id/activity`, `GET /workspaces/:id/my-tasks` |
-| Invites | `POST /workspaces/:id/invites`, `GET /workspaces/invites/mine`, `POST /workspaces/:id/invites/accept`, `DELETE /workspaces/:id/members/:userId`, `PUT /workspaces/:id/members/:userId/role` |
-| Boards | `GET /boards`, `POST /boards`, `GET|PUT|DELETE /boards/:boardId`, `GET /boards/:boardId/activity` |
-| Lists | `POST /lists`, `PUT /lists/reorder`, `PUT|DELETE /lists/:listId` |
-| Cards | `POST /cards`, `GET|PUT|DELETE /cards/:cardId`, `PUT /cards/:cardId/move`, `PUT /cards/:cardId/checklist/:itemId` |
-| Comments | `GET /comments/card/:cardId`, `POST /comments`, `DELETE /comments/:commentId` |
-| Documents | `GET|POST /documents`, `GET|PUT|DELETE /documents/:documentId` |
-| Notifications | `GET /notifications`, `PUT /notifications/:id/read`, `POST /notifications/read-all`, `POST /notifications/due-check`, `DELETE /notifications` |
-| Search | `GET /search?workspaceId=&q=&priority=&assignee=&status=` |
+Example:
+
+```js
+app.use(cors({
+  origin: process.env.CLIENT_URL,
+  credentials: true
+}));
+```
+
+For local development:
+
+```env
+CLIENT_URL=http://localhost:5173
+```
+
+For production:
+
+```env
+CLIENT_URL=https://syncspace-1-sf6n.onrender.com
+```
 
 ---
 
-## Notes
+## 📡 API Routes
 
-- New boards are seeded with Backlog, To Do, In Progress, In Review and Done. Rename,
-  reorder or delete them freely.
-- A card lands in a list whose name contains "done" and is marked complete automatically.
-- Invites: if the email already has an account they join immediately; otherwise the invite
-  waits and appears on their workspace screen after they sign up with that address.
-- Attachments are stored as name + link. Wire up S3 or Cloudinary if you need real uploads.
-- The dark theme is the default; the sun/moon button in the top bar switches to light.
-- Due-date reminders are raised when the app loads rather than by a background scheduler —
-  add a cron job calling the same logic if you need them without an open tab.
+| Module         | Base Route           |
+| -------------- | -------------------- |
+| Authentication | `/api/auth`          |
+| Users          | `/api/users`         |
+| Workspaces     | `/api/workspaces`    |
+| Boards         | `/api/boards`        |
+| Lists          | `/api/lists`         |
+| Cards          | `/api/cards`         |
+| Comments       | `/api/comments`      |
+| Documents      | `/api/documents`     |
+| Notifications  | `/api/notifications` |
+| Search         | `/api/search`        |
+| Health Check   | `/api/health`        |
+
+---
+
+## 🧪 Development Scripts
+
+### Frontend
+
+```bash
+npm run dev
+npm run build
+npm run preview
+```
+
+### Backend
+
+```bash
+npm run dev
+npm start
+```
+
+---
+
+## ☁️ Deployment
+
+SyncSpace can be deployed using Render.
+
+### Frontend Deployment
+
+Set the following environment variable in the frontend Render service:
+
+```env
+VITE_API_URL=https://your-backend-url.onrender.com
+```
+
+Then redeploy the frontend.
+
+### Backend Deployment
+
+Set the following environment variables in the backend Render service:
+
+```env
+NODE_ENV=production
+MONGO_URI=your_mongodb_atlas_url
+JWT_SECRET=your_jwt_secret
+CLIENT_URL=https://syncspace-1-sf6n.onrender.com
+```
+
+After updating environment variables, redeploy the backend.
+
+---
+
+## 🔮 Future Improvements
+
+* Team invitations and role-based permissions
+* Drag-and-drop task management
+* File preview and document versioning
+* Advanced workspace analytics
+* Email notifications
+* Activity timeline
+* Dark mode
+* Mobile application
+* Improved real-time presence indicators
+* Automated testing and CI/CD pipeline
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome and appreciated.
+
+1. Fork the repository
+2. Create a new branch
+
+```bash
+git checkout -b feature/your-feature
+```
+
+3. Make your changes
+4. Commit your changes
+
+```bash
+git commit -m "Add your feature"
+```
+
+5. Push your branch
+
+```bash
+git push origin feature/your-feature
+```
+
+6. Open a Pull Request
+
+---
+
+## 🐛 Issues and Feedback
+
+If you find a bug or have a feature request, please open an issue in the GitHub repository.
+
+---
+
+## 📄 License
+
+This project is currently available for educational and development purposes.
+
+---
+
+## 👨‍💻 Author
+
+**Aman Kumar**
+
+* GitHub: [Your GitHub Profile](https://github.com/your-username)
+* LinkedIn: [Your LinkedIn Profile](https://linkedin.com/in/your-profile)
+
+---
+
+<p align="center">
+  Built with ❤️ using React, Node.js, Express, and MongoDB.
+</p>
